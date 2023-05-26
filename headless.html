@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+
+    <title>Filter System</title>
+
+    <style>
+        body {
+            padding-top:150px;
+            min-height: 2000px;
+        }
+        .card {
+            float:left;
+            margin-bottom: 2rem;
+            width: 100%;
+        }
+
+        .btn:focus {
+            box-shadow:none !important;
+        }
+
+        .filter-item .btn {
+            border: none;
+        }
+
+        .filter-buttons {
+            max-width: 50%;
+            float:left;
+        }
+
+        .filter-buttons .btn {
+            color:grey !important;
+            background-color:white !important;
+        }
+
+        .filter-buttons .btn.active {
+            color:white !important;
+            background-color:grey !important;
+        }
+
+        .filter-item-active {
+            display:block;
+        }
+        .filter-item-inactive {
+            display:none;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="filter-buttons">
+        <div class="btn-group" id="filterButtons">
+            <!-- <a href="#" class="btn btn-secondary" id="filter-button-xsmall">X Small</a> -->
+        </div>
+    </div>
+    <!-- <div class="filter-buttons" style="float:right">
+        AND:
+
+        <a href="btn btn-secondary" id="filter-clear-colour">Clear</a>
+
+        <div class="btn-group">
+            <a href="#" class="btn btn-secondary" id="filter-button-blue">Blue</a>
+            <a href="#" class="btn btn-secondary" id="filter-button-red">Red</a>
+            <a href="#" class="btn btn-secondary" id="filter-button-yellow">Yellow</a>
+            <a href="#" class="btn btn-secondary" id="filter-button-green">Green</a>
+        </div>
+    </div> -->
+
+    <br><br>
+</div>
+<br>
+<div class="container">
+    <div class="row" id="itemList">
+        <!-- <div class="col-sm-3 filter-item blue red tag-small medium large">
+            <div class="card">
+                <img class="card-img-top" src="http://placehold.it/200x100" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Color: <span class="badge badge-secondary">Red</span> <span class="badge badge-secondary">Blue</span></p>
+                    <p class="card-text">Size: <span class="badge badge-secondary">S</span> <span class="badge badge-secondary">M</span> <span class="badge badge-secondary">L</span></p>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <!-- <p id="filter-items-empty" class="text-center">No Items's Left</p> -->
+</div>
+
+<script src="filter.js"></script>
+<script>
+
+    var filterButtons = [];
+
+    var baseUrl = 'http://vccw.test/wp-json/hwe/v1/';
+
+    var itemRequest = new XMLHttpRequest();
+    itemRequest.open('GET',  baseUrl + 'videos');
+    itemRequest.setRequestHeader('Content-Type', 'application/json');
+    itemRequest.onload = function() {
+        if (itemRequest.status === 200) {
+            var postInfo = JSON.parse(itemRequest.responseText);
+
+            for(var postNum = 0; postNum < postInfo.length; postNum++) {
+                var post = postInfo[postNum];
+
+                var filterClass = '';
+                for(var i = 0; i < post.categories.length; i++) {
+                    filterClass += ' tag-' + post.categories[i].slug + ' '
+                }
+
+                document.getElementById('itemList').insertAdjacentHTML('beforeend', '' +
+                    '<div class="col-sm-3 filter-item ' + filterClass + '">' +
+                        '<div class="card">' +
+                            '<img class="card-img-top" src="http://placehold.it/200x100" alt="Card image cap">' +
+                            '<div class="card-body">' +
+                                '<h5 class="card-title">' + post.title + '</h5>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>')
+            }
+        }
+    };
+    itemRequest.send();
+
+    var categoryRequest = new XMLHttpRequest();
+    categoryRequest.open('GET',  baseUrl + 'post-categories');
+    categoryRequest.setRequestHeader('Content-Type', 'application/json');
+    categoryRequest.onload = function() {
+        if (categoryRequest.status === 200) {
+            var categoryInfo = JSON.parse(categoryRequest.responseText);
+            console.log(categoryInfo)
+            for(var categoryNum = 0; categoryNum < categoryInfo.length; categoryNum++) {
+                var category = categoryInfo[categoryNum];
+
+                if (category.parent === 0 && category.id !== 1) {
+                    document.getElementById('filterButtons').insertAdjacentHTML('beforeend', '' +
+                        ' <a href="#" class="btn btn-secondary" id="filter-button-' + category.slug + '">' + category.name + '</a>')
+
+                    filterButtons.push({
+                        'element': document.getElementById('filter-button-' + category.slug),
+                        'tag': 'tag-' + category.slug
+                    });
+                }
+            }
+
+            loadFilters();
+        }
+    };
+    categoryRequest.send();
+
+
+    function loadFilters() {
+        var filter = new Filter({
+            'emptyBlock': document.getElementById('filter-items-empty'),
+            'filters': [
+                {
+                    'key': 'size',
+                    'type': 'exclusive',
+                    'select': 'single',
+                    'buttons': filterButtons
+                }
+            ]
+        })
+    }
+
+
+
+</script>
+
+
+</body>
+</html>

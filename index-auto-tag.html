@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+
+    <title>Filter System</title>
+
+    <style>
+        body {
+            padding-top:150px;
+            min-height: 2000px;
+        }
+        .card {
+            float:left;
+            margin-bottom: 2rem;
+            width: 100%;
+        }
+
+        .btn:focus {
+            box-shadow:none !important;
+        }
+
+        .filter-item .btn {
+            border: none;
+        }
+
+        .filter-buttons {
+            max-width: 50%;
+            float:left;
+        }
+
+        .filter-buttons .btn {
+            color:grey !important;
+            background-color:white !important;
+        }
+
+        .filter-buttons .btn.active {
+            color:white !important;
+            background-color:grey !important;
+        }
+
+        .filter-item-active {
+            display:block;
+        }
+        .filter-item-inactive {
+            display:none;
+        }
+
+        ul li.active {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div id="filterHolder"></div>
+
+    <br><br>
+</div>
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3" data-tags="blue red small medium large">
+            <div class="card">
+                <img class="card-img-top" src="http://placehold.it/200x100" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Color: <span class="badge badge-secondary">Red</span> <span class="badge badge-secondary">Blue</span></p>
+                    <p class="card-text">Size: <span class="badge badge-secondary">S</span> <span class="badge badge-secondary">M</span> <span class="badge badge-secondary">L</span></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-3" data-tags="yellow red medium large">
+            <div class="card">
+                <img class="card-img-top" src="http://placehold.it/200x100" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Color: <span class="badge badge-secondary">Red</span> <span class="badge badge-secondary">Yellow</span></p>
+                    <p class="card-text">Size: <span class="badge badge-secondary">M</span> <span class="badge badge-secondary">L</span></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-3" data-tags="green blue xsmall small">
+            <div class="card">
+                <img class="card-img-top" src="http://placehold.it/200x100" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Color: <span class="badge badge-secondary">green</span> <span class="badge badge-secondary">Blue</span></p>
+                    <p class="card-text">Size: <span class="badge badge-secondary">XS</span> <span class="badge badge-secondary">S</span></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-3" data-tags="green small medium">
+            <div class="card">
+                <img class="card-img-top" src="http://placehold.it/200x100" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Color: <span class="badge badge-secondary">Green</span></p>
+                    <p class="card-text">Size: <span class="badge badge-secondary">S</span> <span class="badge badge-secondary">M</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p id="filter-items-empty" class="text-center">No Product's Left</p>
+</div>
+
+<script src="filter.js"></script>
+<script>
+
+    var config = {
+        'emptyBlock': document.getElementById('filter-items-empty'),
+        'filters': [
+            {
+                'key': 'generate',
+                'type': 'inclusive',
+                'select': 'multiple',
+                'attribute': 'data-tags',
+                'buttonHolder': document.getElementById('filterHolder')
+            }
+        ]
+    }
+
+    var filter = new Filter(config)
+
+</script>
+
+
+</body>
+</html>
