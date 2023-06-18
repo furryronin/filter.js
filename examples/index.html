@@ -51,24 +51,39 @@
             display:none;
         }
 
-        ul li.active {
-            text-decoration: underline;
-        }
-
     </style>
 </head>
 <body>
 
 <div class="container">
 
-    <div id="filterHolder"></div>
+    <div class="filter-buttons">
+        OR:
+        <div class="btn-group">
+            <a href="#" class="btn btn-secondary" id="filter-button-xsmall">X Small</a>
+            <a href="#" class="btn btn-secondary" id="filter-button-small">Small</a>
+            <a href="#" class="btn btn-secondary" id="filter-button-medium">Medium</a>
+            <a href="#" class="btn btn-secondary" id="filter-button-large">Large</a>
+        </div>
+        <a href="#" id="filter-clear-size">Clear</a>
+    </div>
+    <div class="filter-buttons" style="float:right">
+        AND:
+        <div class="btn-group">
+            <a href="#" class="btn btn-secondary" id="filter-button-blue">Blue</a>
+            <a href="#" class="btn btn-secondary" id="filter-button-red">Red</a>
+            <a href="#" class="btn btn-secondary" id="filter-button-yellow">Yellow</a>
+            <a href="#" class="btn btn-secondary" id="filter-button-green">Green</a>
+        </div>
+        <a href="#" id="filter-clear-colour">Clear</a>
+    </div>
 
     <br><br>
 </div>
 <br>
 <div class="container">
     <div class="row">
-        <div class="col-sm-3" data-tags="blue red small medium large">
+        <div class="col-sm-3 blue red small medium large">
             <div class="card">
                 <img class="card-img-top" src="http://placehold.it/200x100" alt="Card image cap">
                 <div class="card-body">
@@ -79,7 +94,7 @@
             </div>
         </div>
 
-        <div class="col-sm-3" data-tags="yellow red medium large">
+        <div class="col-sm-3 yellow red medium large">
             <div class="card">
                 <img class="card-img-top" src="http://placehold.it/200x100" alt="Card image cap">
                 <div class="card-body">
@@ -90,7 +105,7 @@
             </div>
         </div>
 
-        <div class="col-sm-3" data-tags="green blue xsmall small">
+        <div class="col-sm-3 green blue xsmall small">
             <div class="card">
                 <img class="card-img-top" src="http://placehold.it/200x100" alt="Card image cap">
                 <div class="card-body">
@@ -101,7 +116,7 @@
             </div>
         </div>
 
-        <div class="col-sm-3" data-tags="green small medium">
+        <div class="col-sm-3 green small medium">
             <div class="card">
                 <img class="card-img-top" src="http://placehold.it/200x100" alt="Card image cap">
                 <div class="card-body">
@@ -115,18 +130,59 @@
     <p id="filter-items-empty" class="text-center">No Product's Left</p>
 </div>
 
-<script src="filter.js"></script>
+<script src="../filter.js"></script>
 <script>
 
     var config = {
         'emptyBlock': document.getElementById('filter-items-empty'),
         'filters': [
             {
-                'key': 'generate',
+                'key': 'size',
+                'type': 'exclusive',
+                'select': 'multiple',
+                'clear': document.getElementById('filter-clear-size'),
+                'buttons': [
+                    {
+                        'element': document.getElementById('filter-button-xsmall'),
+                        'tag': 'xsmall'
+                    },
+                    {
+                        'element': document.getElementById('filter-button-small'),
+                        'tag': 'small'
+                    },
+                    {
+                        'element': document.getElementById('filter-button-medium'),
+                        'tag': 'medium'
+                    },
+                    {
+                        'element': document.getElementById('filter-button-large'),
+                        'tag': 'large'
+                    }
+                ]
+            },
+            {
+                'key': 'colour',
                 'type': 'inclusive',
                 'select': 'multiple',
-                'attribute': 'data-tags',
-                'buttonHolder': document.getElementById('filterHolder')
+                'clear': document.getElementById('filter-clear-colour'),
+                'buttons': [
+                    {
+                        'element': document.getElementById('filter-button-blue'),
+                        'tag': 'blue'
+                    },
+                    {
+                        'element': document.getElementById('filter-button-red'),
+                        'tag': 'red'
+                    },
+                    {
+                        'element': document.getElementById('filter-button-green'),
+                        'tag': 'green'
+                    },
+                    {
+                        'element': document.getElementById('filter-button-yellow'),
+                        'tag': 'yellow'
+                    }
+                ]
             }
         ]
     }

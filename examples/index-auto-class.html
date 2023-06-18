@@ -56,13 +56,40 @@
 <body>
 
 <div class="container">
-    <div class="filter-buttons btn-group" id="filterButtons"></div>
+
+    <!-- <div class="filter-buttons">
+        OR:
+        <div class="btn-group">
+            <a href="#" class="btn btn-secondary" id="filter-button-xsmall">X Small</a>
+            <a href="#" class="btn btn-secondary" id="filter-button-small">Small</a>
+            <a href="#" class="btn btn-secondary" id="filter-button-medium">Medium</a>
+            <a href="#" class="btn btn-secondary" id="filter-button-large">Large</a>
+        </div>
+    </div>
+    <div class="filter-buttons" style="float:right">
+        AND:
+
+        <a href="#" id="filter-clear-colour">Clear</a>
+
+        <div class="btn-group">
+            <a href="#" class="btn btn-secondary" id="filter-button-blue">Blue</a>
+            <a href="#" class="btn btn-secondary" id="filter-button-red">Red</a>
+            <a href="#" class="btn btn-secondary" id="filter-button-yellow">Yellow</a>
+            <a href="#" class="btn btn-secondary" id="filter-button-green">Green</a>
+        </div>
+    </div>-->
+
+    <div id="filterHolder">
+
+        <a href="#" id="filter-reset">Reset Filters</a>
+    </div>
+
     <br><br>
 </div>
 <br>
 <div class="container">
     <div class="row">
-        <div class="col-sm-3 filter-item tag-small tag-medium tag-large">
+        <div class="col-sm-3 filter-item tag-blue tag-red tag-small tag-medium tag-large">
             <div class="card">
                 <img class="card-img-top" src="http://placehold.it/200x100" alt="Card image cap">
                 <div class="card-body">
@@ -73,7 +100,7 @@
             </div>
         </div>
 
-        <div class="col-sm-3 filter-item tag-medium tag-large">
+        <div class="col-sm-3 filter-item tag-yellow tag-red tag-medium tag-large">
             <div class="card">
                 <img class="card-img-top" src="http://placehold.it/200x100" alt="Card image cap">
                 <div class="card-body">
@@ -84,7 +111,7 @@
             </div>
         </div>
 
-        <div class="col-sm-3 filter-item tag-x-small tag-small">
+        <div class="col-sm-3 filter-item tag-green tag-blue tag-xsmall tag-small">
             <div class="card">
                 <img class="card-img-top" src="http://placehold.it/200x100" alt="Card image cap">
                 <div class="card-body">
@@ -95,7 +122,7 @@
             </div>
         </div>
 
-        <div class="col-sm-3 filter-item tag-small tag-medium">
+        <div class="col-sm-3 filter-item tag-green tag-small tag-medium">
             <div class="card">
                 <img class="card-img-top" src="http://placehold.it/200x100" alt="Card image cap">
                 <div class="card-body">
@@ -109,17 +136,18 @@
     <p id="filter-items-empty" class="text-center">No Product's Left</p>
 </div>
 
-<script src="filter.js"></script>
+<script src="../filter.js"></script>
 <script>
-
     var filter = new Filter({
         'emptyBlock': document.getElementById('filter-items-empty'),
         'filters': [
             {
-                'key': 'size',
-                'type': 'exclusive',
+                'key': 'generate',
+                'type': 'inclusive',
                 'select': 'multiple',
-                'buttonHolder': document.getElementById('filterButtons')
+                'attribute': 'class',
+                'buttonHolder': document.getElementById('filterHolder'),
+                'clear': document.getElementById('filter-reset')
             }
         ]
     })
